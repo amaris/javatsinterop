@@ -8,3 +8,7 @@ Then we use JSweet to transpile DTOs to TypeScript, and standard Java Annotation
 
 As a result, the JavaScript client can access the JAX-RS Java API in a fully safe/typed way.
 
+NOTE: this proof of concept project is created in preparation for the [https://java.withthebest.com/ | Java WTB Online conference].
+
+Copyright 2018 - Amaris
+This code is Open Source licenced with the AGPL
