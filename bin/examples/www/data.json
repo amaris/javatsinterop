@@ -1,0 +1,7 @@
+{
+	"children":[
+		{ "name":"test2", "id":"id2", "weight":3},
+		{ "name":"test3", "id":"id3", "weight":3}
+		],
+	"name":"test1", "id":"id1"
+}

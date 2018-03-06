@@ -1,0 +1,6 @@
+com\amaris\javatsinterop\dto\ContainerNode.class
+com\amaris\javatsinterop\dto\Node.class
+com\amaris\javatsinterop\dto\LeafNode.class
+com\amaris\javatsinterop\api\TestResource.class
+com\amaris\javatsinterop\server\RestServer.class
+com\amaris\javatsinterop\dto\GenericNode.class
