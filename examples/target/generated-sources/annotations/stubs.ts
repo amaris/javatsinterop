@@ -1,18 +1,23 @@
+// This file was generated automatically with JavaTsInterop stub generator
 namespace com.amaris.javatsinterop.api {
-  class TestResource {
+  export class TestResource {
 
-    constructor(private baseUrl : string) {}
+    constructor(private baseUrl : string = '') {}
 
-    helloWorld(onSuccess : (data : string) => void) : void {
-      $.ajax({
-        url: this.baseUrl + "home/hello"
-      }).then(onSuccess);
+    private _xhr(method: string, url: string, callback: any): void {
+      var xhr = new XMLHttpRequest();
+      xhr.open(method, url, true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.onload = () => { callback(JSON.parse(xhr.responseText)); };
+      xhr.send();
     }
 
-    tree(onSuccess : (data : com.amaris.javatsinterop.dto.GenericNode) => void) : void {
-      $.ajax({
-        url: this.baseUrl + "home/tree"
-      }).then(onSuccess);
+    helloWorld(callback : (data : string) => void) : void {
+      this._xhr('GET', this.baseUrl + 'home/hello', callback);
+    }
+
+    tree(callback : (data : com.amaris.javatsinterop.dto.GenericNode) => void) : void {
+      this._xhr('GET', this.baseUrl + 'home/tree', callback);
     }
 
   }

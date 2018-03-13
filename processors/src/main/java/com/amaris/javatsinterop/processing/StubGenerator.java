@@ -56,26 +56,34 @@ public class StubGenerator extends AbstractProcessor {
 
 					if (out != null) {
 
+						printIndent().println("// This file was generated automatically with JavaTsInterop stub generator");
 						printIndent().println("namespace " + e.getEnclosingElement().toString() + " {");
 						startIntent();
-						printIndent().println("class " + e.getSimpleName() + " {\n");
+						printIndent().println("export class " + e.getSimpleName() + " {\n");
 						startIntent();
-						printIndent().println("constructor(private baseUrl : string) {}\n");
+						
+						printIndent().println("constructor(private baseUrl : string = '') {}\n");
 
+						printIndent().println("private _xhr(method: string, url: string, callback: any): void {");
+						startIntent();
+						printIndent().println("var xhr = new XMLHttpRequest();");
+						printIndent().println("xhr.open(method, url, true);");
+						printIndent().println("xhr.setRequestHeader('Content-type', 'application/json');");
+						printIndent().println("xhr.onload = () => { callback(JSON.parse(xhr.responseText)); };");
+						printIndent().println("xhr.send();");
+				        endIndent();
+				        printIndent().println("}\n");
+						
 						for (final Element memberElement : e.getEnclosedElements()) {
 							if (memberElement instanceof ExecutableElement
 									&& memberElement.getAnnotation(Path.class) != null) {
 
-								printIndent().println(memberElement.getSimpleName() + "(onSuccess : (data : "
+								printIndent().println(memberElement.getSimpleName() + "(callback : (data : "
 										+ java2TS(((ExecutableElement) memberElement).getReturnType().toString())
 										+ ") => void) : void {");
 								startIntent();
-								printIndent().println("$.ajax({");
-								startIntent();
-								printIndent().println("url: this.baseUrl + \"" + e.getAnnotation(Path.class).value()
-										+ "/" + memberElement.getAnnotation(Path.class).value() + "\"");
-								endIndent();
-								printIndent().println("}).then(onSuccess);");
+								printIndent().println("this._xhr('GET', this.baseUrl + '"+e.getAnnotation(Path.class).value()
+										+ "/" + memberElement.getAnnotation(Path.class).value() +"', callback);");
 								endIndent();
 								printIndent().println("}\n");
 							}

@@ -29,7 +29,7 @@ class BubbleTreeController {
 
     constructor() {
         let tree: BubbleTree<GenericNode> = new BubbleTree<GenericNode>();
-        let test: TestResource = new TestResource("/");
+        let test: TestResource = new TestResource();
         tree.build({
             container: document.getElementById("bubbletree"),
             url: "/home/tree",

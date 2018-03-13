@@ -25,7 +25,7 @@ var TestResource = com.amaris.javatsinterop.api.TestResource;
 var BubbleTreeController = (function () {
     function BubbleTreeController() {
         var tree = new BubbleTree();
-        var test = new TestResource("/");
+        var test = new TestResource();
         tree.build({
             container: document.getElementById("bubbletree"),
             url: "/home/tree",
