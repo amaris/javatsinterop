@@ -26,7 +26,7 @@ package com.amaris.javatsinterop.dto;
 import jsweet.lang.Interface;
 
 /**
- * This DTO represents generic tree node. It can be used as an object to
+ * This DTO represents a generic tree node. It can be used as an object to
  * transfer tree structures in REST APIs (typically, to be serialized in JSON).
  * 
  * @author Renaud Pawlak

@@ -1,9 +1,28 @@
 # Java-TypeScript interop - Examples (javatsinterop-examples)
 
-This example project demonstrates how a Java back-end can safely interoperate with a JavaScript front-end in a typed way
+This is part of the `javatsinterop` project. Please refer to the `javatsinterop` parent project for full documentation.
 
-In this project, we use a standard JAX-RS backend powered by Jetty and Jersey. Then we use JSweet to transpile DTOs to TypeScript, and standard Java Annotation Processing (see the javatsinterop-processors sub-project) to generate well-typed TypeScript REST stub.
+## Usage
 
-As a result, the JavaScript client can access the JAX-RS Java API in a fully safe/typed way.
+Build the javatsinterop project will build this project. For partial build of this project only, you can follow the instructions below.
 
-NOTE: this proof of concept project is created in preparation for the [Java WTB Online conference](https://java.withthebest.com/).
+Generate the DTO from Java (`src/main/java/com/amaris/javatsinterop/dto`) to TypeScript (`www/js/generated`):
+
+```bash
+% mvn generate-sources
+```
+
+Build the project (includes DTO generation, requires the javatsinterop-processors project to be installed):
+
+```bash
+% mvn clean install
+```
+
+Run the example:
+
+```bash
+% java -cp target/javatsinterop-examples-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.amaris.javatsinterop.server.RestServer
+% open http://localhost:2222/index.html
+
+```
+
