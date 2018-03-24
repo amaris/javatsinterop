@@ -33,7 +33,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import com.amaris.javatsinterop.api.TestResource;
 
 /**
- * Configures and starts the Jetty web server to run the REST API (Jersey-powered JAX-RS).
+ * Configures and starts the Jetty web server to run the REST API
+ * (Jersey-powered JAX-RS).
  * 
  * @author Renaud Pawlak
  */
