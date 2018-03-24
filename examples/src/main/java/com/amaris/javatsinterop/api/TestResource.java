@@ -23,12 +23,18 @@
  */
 package com.amaris.javatsinterop.api;
 
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.amaris.javatsinterop.dto.GenericNode;
+import com.amaris.javatsinterop.dto.Salary;
+import com.opencsv.CSVReader;
 
 /**
  * This is a simple REST API to be used as an example.
@@ -37,6 +43,24 @@ import com.amaris.javatsinterop.dto.GenericNode;
  */
 @Path("home")
 public class TestResource {
+
+	List<Salary> salaries = new ArrayList<>();
+
+	{
+		System.out.println("reading data...");
+		try (CSVReader reader = new CSVReader(new FileReader("examples/salaries.csv"))) {
+			String[] nextLine;
+			while ((nextLine = reader.readNext()) != null) {
+				salaries.add(new Salary(Integer.parseInt(nextLine[0]), nextLine[1], nextLine[2],
+						Integer.parseInt(nextLine[3]), Integer.parseInt(nextLine[4]), nextLine[5],
+						Integer.parseInt(nextLine[6])));
+			}
+		} catch (Exception e) {
+			System.err.println("cannot read data");
+			e.printStackTrace();
+		}
+	}
+
 	@GET
 	@Path("hello")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -48,15 +72,36 @@ public class TestResource {
 	@Path("tree")
 	@Produces(MediaType.APPLICATION_JSON)
 	public GenericNode tree() {
-		return new GenericNode(1, "test1", new GenericNode[] { //
-				new GenericNode(2, "test11", new GenericNode[] { //
-						new GenericNode(3, "test111", 4), //
-						new GenericNode(4, "test112", 2), //
-						new GenericNode(5, "test113", 3) }),
-				new GenericNode(6, "test12", new GenericNode[] { //
-						new GenericNode(7, "test121", 5), //
-						new GenericNode(8, "test122", 1), //
-						new GenericNode(9, "test123", 3) }) });
+		return new GenericNode(1, "test1",
+				new GenericNode[] { //
+						new GenericNode(2, "test11",
+								new GenericNode[] { //
+										new GenericNode(3, "test111", 4), //
+										new GenericNode(4, "test112", 2), //
+										new GenericNode(5, "test113", 3) }),
+						new GenericNode(6, "test12",
+								new GenericNode[] { //
+										new GenericNode(7, "test121", 5), //
+										new GenericNode(8, "test122", 1), //
+										new GenericNode(9, "test123", 3) }) });
+	}
+
+	@GET
+	@Path("salary")
+	@Produces(MediaType.APPLICATION_JSON)
+	public GenericNode data() {
+		return new GenericNode(1, "test1",
+				new GenericNode[] { //
+						new GenericNode(2, "test11",
+								new GenericNode[] { //
+										new GenericNode(3, "test111", 4), //
+										new GenericNode(4, "test112", 2), //
+										new GenericNode(5, "test113", 3) }),
+						new GenericNode(6, "test12",
+								new GenericNode[] { //
+										new GenericNode(7, "test121", 5), //
+										new GenericNode(8, "test122", 1), //
+										new GenericNode(9, "test123", 3) }) });
 	}
 
 }
