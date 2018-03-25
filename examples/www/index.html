@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="/lib/bootstrap/bootstrap.min.css"/>
     <link rel="stylesheet" href="/lib/visualization-components/bubbletree/arnd_bubbletree.css"/>
     <style>
         
@@ -12,15 +13,21 @@
 <div>
     <svg id="bubbletree"></svg>
 </div>
+
+<div id="table">
+</div>
+
  
+<script src="/lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="/lib/d3.v4.min.js"></script>
 <script src="/lib/visualization-components/bubbletree/arnd_bubbletree.js"></script>
 <script src="/js/generated/com/amaris/javatsinterop/dto/GenericNode.js"></script>
+<script src="/lib/visualization-components/table/arnd_table.js"></script>
 <script src="/js/generated/stubs.js"></script>
-<script src="/js/bubbletreeController.js"></script>
+<script src="/js/exampleController.js"></script>
 
 <script>
-	new BubbleTreeController();
+	new ExampleController();
 </script>
 </body>
 </html>
