@@ -61,12 +61,13 @@ public class StubGenerator extends AbstractProcessor {
 
 					if (out != null) {
 
-						printIndent().println("// This file was generated automatically with JavaTsInterop stub generator");
+						printIndent()
+								.println("// This file was generated automatically with JavaTsInterop stub generator");
 						printIndent().println("namespace " + e.getEnclosingElement().toString() + " {");
 						startIntent();
 						printIndent().println("export class " + e.getSimpleName() + " {\n");
 						startIntent();
-						
+
 						printIndent().println("constructor(private baseUrl : string = '') {}\n");
 
 						printIndent().println("private _xhr(method: string, url: string, callback: any): void {");
@@ -76,9 +77,9 @@ public class StubGenerator extends AbstractProcessor {
 						printIndent().println("xhr.setRequestHeader('Content-type', 'application/json');");
 						printIndent().println("xhr.onload = () => { callback(JSON.parse(xhr.responseText)); };");
 						printIndent().println("xhr.send();");
-				        endIndent();
-				        printIndent().println("}\n");
-						
+						endIndent();
+						printIndent().println("}\n");
+
 						for (final Element memberElement : e.getEnclosedElements()) {
 							if (memberElement instanceof ExecutableElement
 									&& memberElement.getAnnotation(Path.class) != null) {
@@ -87,8 +88,9 @@ public class StubGenerator extends AbstractProcessor {
 										+ java2TS(((ExecutableElement) memberElement).getReturnType().toString())
 										+ ") => void) : void {");
 								startIntent();
-								printIndent().println("this._xhr('GET', this.baseUrl + '"+e.getAnnotation(Path.class).value()
-										+ "/" + memberElement.getAnnotation(Path.class).value() +"', callback);");
+								printIndent().println(
+										"this._xhr('GET', this.baseUrl + '" + e.getAnnotation(Path.class).value() + "/"
+												+ memberElement.getAnnotation(Path.class).value() + "', callback);");
 								endIndent();
 								printIndent().println("}\n");
 							}
@@ -159,6 +161,9 @@ public class StubGenerator extends AbstractProcessor {
 		case "java.lang.Date":
 			return "Date";
 		default:
+			if (typeName.startsWith("java.util.List<")) {
+				return java2TS(typeName.substring(15, typeName.length() - 1)) + "[]";
+			}
 			return typeName;
 		}
 	}
