@@ -41,8 +41,10 @@ public class Salary {
 	public String sex;
 	public int salary;
 	
+	public Salary() {
+	}
+	
 	public Salary(int id, String rank, String discipline, int yearsSince, int yearsService, String sex, int salary) {
-		super();
 		this.id = id;
 		this.rank = rank;
 		this.discipline = discipline;

@@ -30,6 +30,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import com.amaris.javatsinterop.api.ExampleResource;
 import com.amaris.javatsinterop.api.TestResource;
 
 /**
@@ -50,7 +51,7 @@ public class RestServer {
 		jerseyServlet.setInitOrder(0);
 
 		jerseyServlet.setInitParameter("jersey.config.server.provider.classnames",
-				TestResource.class.getCanonicalName());
+				TestResource.class.getCanonicalName() + ", " + ExampleResource.class.getCanonicalName());
 
 		// static content
 		ResourceHandler staticHandler = new ResourceHandler();

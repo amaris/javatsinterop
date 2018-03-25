@@ -13,11 +13,37 @@ namespace com.amaris.javatsinterop.api {
     }
 
     helloWorld(callback : (data : string) => void) : void {
-      this._xhr('GET', this.baseUrl + 'home/hello', callback);
+      this._xhr('GET', this.baseUrl + 'test/hello', callback);
     }
 
     tree(callback : (data : com.amaris.javatsinterop.dto.GenericNode) => void) : void {
-      this._xhr('GET', this.baseUrl + 'home/tree', callback);
+      this._xhr('GET', this.baseUrl + 'test/tree', callback);
+    }
+
+  }
+
+}
+
+// This file was generated automatically with JavaTsInterop stub generator
+namespace com.amaris.javatsinterop.api {
+  export class ExampleResource {
+
+    constructor(private baseUrl : string = '') {}
+
+    private _xhr(method: string, url: string, callback: any): void {
+      var xhr = new XMLHttpRequest();
+      xhr.open(method, url, true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.onload = () => { callback(JSON.parse(xhr.responseText)); };
+      xhr.send();
+    }
+
+    tree(callback : (data : com.amaris.javatsinterop.dto.GenericNode) => void) : void {
+      this._xhr('GET', this.baseUrl + 'example/tree', callback);
+    }
+
+    salaries(callback : (data : com.amaris.javatsinterop.dto.Salary[]) => void) : void {
+      this._xhr('GET', this.baseUrl + 'example/salaries', callback);
     }
 
   }

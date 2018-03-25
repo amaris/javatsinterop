@@ -50,18 +50,22 @@ public class ExampleResource {
 	@Path("tree")
 	@Produces(MediaType.APPLICATION_JSON)
 	public GenericNode tree() {
-		return new GenericNode(1, "test1",
-				new GenericNode[] { //
-						new GenericNode(2, "test11",
-								new GenericNode[] { //
-										new GenericNode(3, "test111", 4), //
-										new GenericNode(4, "test112", 2), //
-										new GenericNode(5, "test113", 3) }),
-						new GenericNode(6, "test12",
-								new GenericNode[] { //
-										new GenericNode(7, "test121", 5), //
-										new GenericNode(8, "test122", 1), //
-										new GenericNode(9, "test123", 3) }) });
+		return new GenericNode(1, "Salaries", new GenericNode[] { //
+				new GenericNode(11, "Professor", new GenericNode[] { //
+						new GenericNode(111, "Male", salariesToNodes("Prof", "Male")), //
+						new GenericNode(112, "Female", salariesToNodes("Prof", "Female")) }), //
+				new GenericNode(12, "Associate Professor", new GenericNode[] { //
+						new GenericNode(121, "Male", salariesToNodes("AssocProf", "Male")), //
+						new GenericNode(122, "Female", salariesToNodes("AssocProf", "Female")) }), //
+				new GenericNode(12, "Assistant Professor", new GenericNode[] { //
+						new GenericNode(121, "Male", salariesToNodes("AsstProf", "Male")), //
+						new GenericNode(122, "Female", salariesToNodes("AsstProf", "Female")) //
+				}) });
+	}
+
+	private GenericNode[] salariesToNodes(String rank, String gender) {
+		return data.filterSalaries(rank, gender).stream().map(s -> new GenericNode(1, "" + s.salary, s.salary))
+				.toArray(size -> new GenericNode[size]);
 	}
 
 	@GET

@@ -27,7 +27,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.amaris.javatsinterop.dto.Salary;
@@ -52,6 +54,8 @@ public class Data {
 			System.out.println("reading data from " + file);
 			try (CSVReader reader = new CSVReader(new FileReader(file))) {
 				String[] nextLine;
+				// skipping headers
+				reader.readNext();
 				while ((nextLine = reader.readNext()) != null) {
 					salaries.add(new Salary(NumberUtils.toInt(nextLine[0], 0), nextLine[1], nextLine[2],
 							NumberUtils.toInt(nextLine[3], 0), NumberUtils.toInt(nextLine[4], 0), nextLine[5],
@@ -71,5 +75,14 @@ public class Data {
 		return salaries;
 	}
 
+	/**
+	 * Returns a list of salaries filtered according to the given criterias.
+	 */
+	public List<Salary> filterSalaries(String rank, String gender) {
+		return salaries.stream().filter(s -> {
+			return StringUtils.equals(rank, s.rank) && StringUtils.equals(gender, s.sex);
+		}).collect(Collectors.toList());
+	}
 
+	
 }
