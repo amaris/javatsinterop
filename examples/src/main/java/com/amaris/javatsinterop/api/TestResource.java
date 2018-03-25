@@ -23,29 +23,23 @@
  */
 package com.amaris.javatsinterop.api;
 
-import java.util.List;
-
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.amaris.javatsinterop.data.Data;
 import com.amaris.javatsinterop.dto.GenericNode;
-import com.amaris.javatsinterop.dto.Salary;
 
 /**
- * This is a simple REST API to be used as an example.
+ * This is a simple REST API to be used to test invocations.
  * 
  * @author Renaud Pawlak
  */
-@Path("home")
+@Path("test")
 @Singleton
 public class TestResource {
 
-	private Data data = new Data();
-	
 	@GET
 	@Path("hello")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -69,13 +63,6 @@ public class TestResource {
 										new GenericNode(7, "test121", 5), //
 										new GenericNode(8, "test122", 1), //
 										new GenericNode(9, "test123", 3) }) });
-	}
-
-	@GET
-	@Path("salaries")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Salary> salaries() {
-		return data.getSalaries();
 	}
 
 }
