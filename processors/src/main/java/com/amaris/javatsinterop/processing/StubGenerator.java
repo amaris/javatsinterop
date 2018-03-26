@@ -24,7 +24,9 @@
 package com.amaris.javatsinterop.processing;
 
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
@@ -33,6 +35,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.VariableElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import javax.tools.FileObject;
@@ -84,13 +87,30 @@ public class StubGenerator extends AbstractProcessor {
 							if (memberElement instanceof ExecutableElement
 									&& memberElement.getAnnotation(Path.class) != null) {
 
-								printIndent().println(memberElement.getSimpleName() + "(callback : (data : "
+								printIndent().print(memberElement.getSimpleName() + "(");
+								List<? extends VariableElement> parameters = ((ExecutableElement) memberElement)
+										.getParameters();
+
+								for (Element param : parameters) {
+									out.print(param.getSimpleName() + ", ");
+								}
+
+								out.println("callback : (data : "
 										+ java2TS(((ExecutableElement) memberElement).getReturnType().toString())
 										+ ") => void) : void {");
 								startIntent();
-								printIndent().println(
-										"this._xhr('GET', this.baseUrl + '" + e.getAnnotation(Path.class).value() + "/"
-												+ memberElement.getAnnotation(Path.class).value() + "', callback);");
+								String url = "this.baseUrl + '" + e.getAnnotation(Path.class).value() + "/"
+										+ memberElement.getAnnotation(Path.class).value() + "'";
+								// we only support GET protocol for this example
+								if (!parameters.isEmpty()) {
+									printIndent().println("let url = " + url + ";");
+									printIndent().println("url += '?" + parameters.stream()
+											.map(param -> (param.getSimpleName() + "='+(" + param.getSimpleName()
+													+ "==null?'':encodeURIComponent(" + param.getSimpleName() + "))"))
+											.collect(Collectors.joining("+'&")) + ";");
+									url = "url";
+								}
+								printIndent().println("this._xhr('GET', " + url + ", callback);");
 								endIndent();
 								printIndent().println("}\n");
 							}
