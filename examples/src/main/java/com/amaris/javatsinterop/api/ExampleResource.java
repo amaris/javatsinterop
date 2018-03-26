@@ -29,6 +29,7 @@ import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.amaris.javatsinterop.data.Data;
@@ -50,29 +51,30 @@ public class ExampleResource {
 	@Path("tree")
 	@Produces(MediaType.APPLICATION_JSON)
 	public GenericNode tree() {
-		return new GenericNode(1, "Salaries", new GenericNode[] { //
-				new GenericNode(11, "Professor", new GenericNode[] { //
-						new GenericNode(111, "Male", salariesToNodes("Prof", "Male")), //
-						new GenericNode(112, "Female", salariesToNodes("Prof", "Female")) }), //
-				new GenericNode(12, "Associate Professor", new GenericNode[] { //
-						new GenericNode(121, "Male", salariesToNodes("AssocProf", "Male")), //
-						new GenericNode(122, "Female", salariesToNodes("AssocProf", "Female")) }), //
-				new GenericNode(12, "Assistant Professor", new GenericNode[] { //
-						new GenericNode(121, "Male", salariesToNodes("AsstProf", "Male")), //
-						new GenericNode(122, "Female", salariesToNodes("AsstProf", "Female")) //
+		return new GenericNode("Salaries", new GenericNode[] { //
+				new GenericNode("Professor", new GenericNode[] { //
+						new GenericNode("Economics", salariesToNodes("Prof", "Economics")), //
+						new GenericNode("Computer Science", salariesToNodes("Prof", "Computer Science")) }), //
+				new GenericNode("Associate Professor", new GenericNode[] { //
+						new GenericNode("Economics", salariesToNodes("AssocProf", "Economics")), //
+						new GenericNode("Computer Science", salariesToNodes("AssocProf", "Computer Science")) }), //
+				new GenericNode("Assistant Professor", new GenericNode[] { //
+						new GenericNode("Economics", salariesToNodes("AsstProf", "Economics")), //
+						new GenericNode("Computer Science", salariesToNodes("AsstProf", "Computer Science")) //
 				}) });
 	}
 
-	private GenericNode[] salariesToNodes(String rank, String gender) {
-		return data.filterSalaries(rank, gender).stream().map(s -> new GenericNode(1, "" + s.salary, s.salary))
+	private GenericNode[] salariesToNodes(String rank, String discipline) {
+		return data.filterSalaries(rank, discipline).stream().map(s -> new GenericNode("" + s.salary, s.salary))
 				.toArray(size -> new GenericNode[size]);
 	}
 
 	@GET
 	@Path("salaries")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Salary> salaries() {
-		return data.getSalaries();
+	public List<Salary> salaries(@QueryParam("rank") String rank, @QueryParam("discipline") String discipline) {
+		System.out.println("salaries: " + rank + "," + discipline);
+		return data.filterSalaries(rank, discipline);
 	}
 
 }

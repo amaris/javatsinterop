@@ -5,7 +5,6 @@ namespace com.amaris.javatsinterop.dto {
      * transfer tree structures in REST APIs (typically, to be serialized in JSON).
      * 
      * @author Renaud Pawlak
-     * @param {number} test
      * @param {string} name
      * @param {number} weight
      * @class
@@ -17,9 +16,9 @@ namespace com.amaris.javatsinterop.dto {
 
         children : GenericNode[];
 
-        test : number;
+        uid : string;
 
-        constructor(test? : any, name? : any, children? : any);
+        constructor(name? : any, children? : any);
     }
 }
 

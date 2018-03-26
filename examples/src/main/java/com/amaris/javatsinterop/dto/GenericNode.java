@@ -37,21 +37,19 @@ public class GenericNode {
 	public String name;
 	public double weight;
 	public GenericNode[] children;
-	public int test;
+	public String uid;
 
 	public GenericNode() {
 	}
 
-	public GenericNode(int test, String name, double weight) {
+	public GenericNode(String name, double weight) {
 		super();
-		this.test = test;
 		this.name = name;
 		this.weight = weight;
 	}
 
-	public GenericNode(int test, String name, GenericNode[] children) {
+	public GenericNode(String name, GenericNode[] children) {
 		super();
-		this.test = test;
 		this.name = name;
 		this.children = children;
 	}

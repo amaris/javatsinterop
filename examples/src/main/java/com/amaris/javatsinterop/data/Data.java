@@ -78,11 +78,11 @@ public class Data {
 	/**
 	 * Returns a list of salaries filtered according to the given criterias.
 	 */
-	public List<Salary> filterSalaries(String rank, String gender) {
+	public List<Salary> filterSalaries(String rank, String discipline) {
 		return salaries.stream().filter(s -> {
-			return StringUtils.equals(rank, s.rank) && StringUtils.equals(gender, s.sex);
+			return (StringUtils.isBlank(rank) || StringUtils.equals(rank, s.rank))
+					&& (StringUtils.isBlank(discipline) || StringUtils.equals(discipline, s.discipline));
 		}).collect(Collectors.toList());
 	}
 
-	
 }

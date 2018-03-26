@@ -56,8 +56,10 @@ var com;
                     ExampleResource.prototype.tree = function (callback) {
                         this._xhr('GET', this.baseUrl + 'example/tree', callback);
                     };
-                    ExampleResource.prototype.salaries = function (callback) {
-                        this._xhr('GET', this.baseUrl + 'example/salaries', callback);
+                    ExampleResource.prototype.salaries = function (rank, discipline, callback) {
+                        var url = this.baseUrl + 'example/salaries';
+                        url += '?rank=' + (rank == null ? '' : encodeURIComponent(rank)) + '&discipline=' + (discipline == null ? '' : encodeURIComponent(discipline));
+                        this._xhr('GET', url, callback);
                     };
                     return ExampleResource;
                 }());

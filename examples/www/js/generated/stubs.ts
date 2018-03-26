@@ -42,8 +42,10 @@ namespace com.amaris.javatsinterop.api {
       this._xhr('GET', this.baseUrl + 'example/tree', callback);
     }
 
-    salaries(callback : (data : com.amaris.javatsinterop.dto.Salary[]) => void) : void {
-      this._xhr('GET', this.baseUrl + 'example/salaries', callback);
+    salaries(rank, discipline, callback : (data : com.amaris.javatsinterop.dto.Salary[]) => void) : void {
+      let url = this.baseUrl + 'example/salaries';
+      url += '?rank='+(rank==null?'':encodeURIComponent(rank))+'&discipline='+(discipline==null?'':encodeURIComponent(discipline));
+      this._xhr('GET', url, callback);
     }
 
   }
