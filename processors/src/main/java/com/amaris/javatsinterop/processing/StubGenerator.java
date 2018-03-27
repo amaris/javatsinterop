@@ -91,8 +91,8 @@ public class StubGenerator extends AbstractProcessor {
 								List<? extends VariableElement> parameters = ((ExecutableElement) memberElement)
 										.getParameters();
 
-								for (Element param : parameters) {
-									out.print(param.getSimpleName() + ", ");
+								for (VariableElement param : parameters) {
+									out.print(param.getSimpleName() + " : " + java2TS(param.asType().toString()) + ", ");
 								}
 
 								out.println("callback : (data : "
