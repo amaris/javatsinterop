@@ -28,33 +28,70 @@ import ExampleResource = com.amaris.javatsinterop.api.ExampleResource;
 
 class ExampleController {
 
+    table: Table<Salary>;
+    tree: BubbleTree<GenericNode>;
+
     constructor() {
         let example: ExampleResource = new ExampleResource();
 
-        example.salaries(salaries => {
-            let table: Table<Salary> = new Table<Salary>();
-            table.build({
+        example.salaries(null, null, salaries => {
+            this.table = new Table<Salary>();
+            this.table.build({
                 container: document.getElementById("table"),
                 data: salaries
             });
         });
 
         example.tree(rootNode => {
-            let tree: BubbleTree<GenericNode> = new BubbleTree<GenericNode>();
-            tree.build({
+            this.tree = new BubbleTree<GenericNode>();
+            this.tree.build({
                 container: document.getElementById("bubbletree"),
                 data: rootNode,
                 handlers: {
-                    "click": function(d) {
-                        console.info(">> " + d.data.weight);
+                    "click": d => {
+                        this.tree.clearSelect();
+                        this.tree.select(d.data.uid);
+
+                        let rank = null, discipline = null;
+                        switch (d.depth) {
+                            case 0:
+                                break;
+                            case 1:
+                                rank = this.getRankName(d.data.name);
+                                break;
+                            case 2:
+                                rank = this.getRankName(d.parent.data.name);
+                                discipline = d.data.name;
+                                break;
+                        }
+                        console.info("fetching salaries: " + rank + ", " + discipline);
+                        example.salaries(rank, discipline, salaries => {
+                            this.table.build({
+                                container: document.getElementById("table"),
+                                data: salaries
+                            });
+                        });
+
+
                         //test.helloWorld((s) => { console.info("ASYNC >> " + s); })
                     },
-                    "mouseover": function(d) { console.info("mouseover: " + d.data.test); },
+                    "mouseover": function(d) { console.info("mouseover: " + d.data); },
                     "dblclick": function(d) { console.info("dblclick"); }
                 },
-                showRoot: false
+                showRoot: true
             });
         });
-
     }
+    
+    private getRankName(nodeName: string): string {
+        switch (nodeName) {
+            case "Assistant Professor":
+                return "AsstProf";
+            case "Associate Professor":
+                return "AssocProf";
+            case "Professor":
+                return "Prof";
+        }
+    }
+
 }

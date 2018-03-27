@@ -24,31 +24,62 @@
 var ExampleResource = com.amaris.javatsinterop.api.ExampleResource;
 var ExampleController = (function () {
     function ExampleController() {
+        var _this = this;
         var example = new ExampleResource();
-        example.salaries(function (salaries) {
-            var table = new Table();
-            table.build({
+        example.salaries(null, null, function (salaries) {
+            _this.table = new Table();
+            _this.table.build({
                 container: document.getElementById("table"),
                 data: salaries
             });
         });
         example.tree(function (rootNode) {
-            var tree = new BubbleTree();
-            tree.build({
+            _this.tree = new BubbleTree();
+            _this.tree.build({
                 container: document.getElementById("bubbletree"),
                 data: rootNode,
                 handlers: {
                     "click": function (d) {
-                        console.info(">> " + d.data.weight);
+                        _this.tree.clearSelect();
+                        _this.tree.select(d.data.uid);
+                        var rank = null, discipline = null;
+                        switch (d.depth) {
+                            case 0:
+                                break;
+                            case 1:
+                                rank = _this.getRankName(d.data.name);
+                                break;
+                            case 2:
+                                rank = _this.getRankName(d.parent.data.name);
+                                discipline = d.data.name;
+                                break;
+                        }
+                        console.info("fetching salaries: " + rank + ", " + discipline);
+                        example.salaries(rank, discipline, function (salaries) {
+                            _this.table.build({
+                                container: document.getElementById("table"),
+                                data: salaries
+                            });
+                        });
                         //test.helloWorld((s) => { console.info("ASYNC >> " + s); })
                     },
-                    "mouseover": function (d) { console.info("mouseover: " + d.data.test); },
+                    "mouseover": function (d) { console.info("mouseover: " + d.data); },
                     "dblclick": function (d) { console.info("dblclick"); }
                 },
-                showRoot: false
+                showRoot: true
             });
         });
     }
+    ExampleController.prototype.getRankName = function (nodeName) {
+        switch (nodeName) {
+            case "Assistant Professor":
+                return "AsstProf";
+            case "Associate Professor":
+                return "AssocProf";
+            case "Professor":
+                return "Prof";
+        }
+    };
     return ExampleController;
 }());
 //# sourceMappingURL=exampleController.js.map
