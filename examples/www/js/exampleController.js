@@ -30,7 +30,13 @@ var ExampleController = (function () {
             _this.table = new Table();
             _this.table.build({
                 container: document.getElementById("table"),
-                data: salaries
+                data: salaries,
+                headerClickHandler: function (column) {
+                    console.info("click1 > " + column + "-" + Object.keys(salaries[0])[column]);
+                    _this.table.loadData(_this.table.getData().sort(function (a, b) {
+                        return a[Object.keys(salaries[0])[column]] - b[Object.keys(salaries[0])[column]];
+                    }));
+                }
             });
         });
         example.tree(function (rootNode) {
@@ -56,12 +62,8 @@ var ExampleController = (function () {
                         }
                         console.info("fetching salaries: " + rank + ", " + discipline);
                         example.salaries(rank, discipline, function (salaries) {
-                            _this.table.build({
-                                container: document.getElementById("table"),
-                                data: salaries
-                            });
+                            _this.table.loadData(salaries);
                         });
-                        //test.helloWorld((s) => { console.info("ASYNC >> " + s); })
                     },
                     "mouseover": function (d) { console.info("mouseover: " + d.data); },
                     "dblclick": function (d) { console.info("dblclick"); }

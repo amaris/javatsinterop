@@ -145,6 +145,7 @@ interface TableConfiguration<D> {
      * The data to be shown in the table.
      */
     data: string | D[];
+    headerClickHandler: (column: number) => void;
 }
 /**
  * An interactive D3.js component to render objects in a table.
@@ -155,9 +156,17 @@ declare class Table<D> {
     private selection;
     constructor();
     /**
-     * Builds the table as specified by the given configuration.
+     * Builds the table as specified by the given configuration (loads the data if any is given).
      *
      * @param {TableConfiguration} config - the configuration
      */
     build(config: TableConfiguration<D>): void;
+    /**
+     * Loads or reloads the data, keeping all the other configuration unchanged.
+     */
+    loadData(data: D[]): void;
+    /**
+     * Gets the data in the table.
+     */
+    getData(): D[];
 }

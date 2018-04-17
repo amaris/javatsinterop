@@ -32,6 +32,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.amaris.javatsinterop.api.ExampleResource;
 import com.amaris.javatsinterop.api.TestResource;
+import com.amaris.javatsinterop.data.Data;
 
 /**
  * Configures and starts the Jetty web server to run the REST API
@@ -42,6 +43,9 @@ import com.amaris.javatsinterop.api.TestResource;
 public class RestServer {
 	public static void main(String[] args) throws Exception {
 
+		// init the data layer
+		Data.getInstance();
+		
 		// servlets
 		ServletContextHandler servletHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		servletHandler.setContextPath("/");

@@ -45,7 +45,7 @@ import com.amaris.javatsinterop.dto.Salary;
 @Singleton
 public class ExampleResource {
 
-	private Data data = new Data();
+	private Data data = Data.getInstance();
 
 	@GET
 	@Path("tree")

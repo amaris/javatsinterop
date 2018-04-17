@@ -38,7 +38,13 @@ class ExampleController {
             this.table = new Table<Salary>();
             this.table.build({
                 container: document.getElementById("table"),
-                data: salaries
+                data: salaries,
+                headerClickHandler: (column) => {
+                    console.info("click1 > " + column + "-" + Object.keys(salaries[0])[column]);
+                    this.table.loadData(this.table.getData().sort((a, b) => {
+                        return a[Object.keys(salaries[0])[column]] - b[Object.keys(salaries[0])[column]];
+                    }));
+                }
             });
         });
 
@@ -66,14 +72,8 @@ class ExampleController {
                         }
                         console.info("fetching salaries: " + rank + ", " + discipline);
                         example.salaries(rank, discipline, salaries => {
-                            this.table.build({
-                                container: document.getElementById("table"),
-                                data: salaries
-                            });
+                            this.table.loadData(salaries);
                         });
-
-
-                        //test.helloWorld((s) => { console.info("ASYNC >> " + s); })
                     },
                     "mouseover": function(d) { console.info("mouseover: " + d.data); },
                     "dblclick": function(d) { console.info("dblclick"); }
@@ -82,7 +82,7 @@ class ExampleController {
             });
         });
     }
-    
+
     private getRankName(nodeName: string): string {
         switch (nodeName) {
             case "Assistant Professor":

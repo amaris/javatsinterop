@@ -293,16 +293,22 @@ var Table = (function () {
     function Table() {
     }
     /**
-     * Builds the table as specified by the given configuration.
+     * Builds the table as specified by the given configuration (loads the data if any is given).
      *
      * @param {TableConfiguration} config - the configuration
      */
     Table.prototype.build = function (config) {
-        var _this = this;
-        this.data = config.data;
         this.config = config;
+        this.loadData(config.data);
+    };
+    /**
+     * Loads or reloads the data, keeping all the other configuration unchanged.
+     */
+    Table.prototype.loadData = function (data) {
+        var _this = this;
+        this.data = data;
         this.config.container.innerHTML = "";
-        this.selection = d3.select(config.container);
+        this.selection = d3.select(this.config.container);
         var table = this.selection.append('table').classed('table', true);
         var thead = table.append('thead').classed('thead-light', true);
         var tbody = table.append('tbody');
@@ -311,6 +317,11 @@ var Table = (function () {
             .selectAll('th')
             .data(Object.keys(this.data[0])).enter()
             .append('th')
+            .on('click', function (d) {
+            if (_this.config.headerClickHandler != null) {
+                _this.config.headerClickHandler(Object.keys(_this.data[0]).indexOf(d));
+            }
+        })
             .text(function (column) { return column; });
         // create a row for each object in the data
         var rows = tbody.selectAll('tr')
@@ -330,6 +341,12 @@ var Table = (function () {
             .text(function (d) {
             return d.value;
         });
+    };
+    /**
+     * Gets the data in the table.
+     */
+    Table.prototype.getData = function () {
+        return this.data;
     };
     return Table;
 }());
